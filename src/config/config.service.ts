@@ -6,6 +6,6 @@ export class AppConfigService {
   constructor(private readonly configService: ConfigService) {}
 
   get mongoUri(): string {
-    return this.configService.get<string>('MONGO_URI', 'mongodb://localhost:27017/linkmagic');
+    return this.configService.get<string>('MONGO_URI');
   }
 }
