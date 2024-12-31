@@ -3,18 +3,9 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AppConfigService {
-  constructor(private configService: ConfigService) {}
-
-  // Get environment variables
-  get port(): number {
-    return this.configService.get<number>('PORT', 3000);
-  }
+  constructor(private readonly configService: ConfigService) {}
 
   get mongoUri(): string {
-    return this.configService.get<string>('MONGO_URI');
-  }
-
-  get baseUrl(): string {
-    return this.configService.get<string>('BASE_URL');
+    return this.configService.get<string>('MONGO_URI', 'mongodb://localhost:27017/linkmagic');
   }
 }
