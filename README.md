@@ -1,12 +1,12 @@
-# LinkMagic API Documentation
+# LinkMagic API Documentation 🌐✂️
 
-## Overview
+## Overview 🚀
 The LinkMagic API allows provides a robust and scalable solution for generating shortened URLs and retrieving original URLs from their shortened counterparts. This service is built with **NestJS** and integrates seamlessly with **MongoDB** for data persistence. It is designed to handle high traffic with reliability and performance.
 
 ---
 
 
-## Features
+## Features 🛠️
 - **Shorten URL:** Generate a unique, shortened version of a long URL.
 - **Retrieve URL:** Retrieve the original URL using the shortened code.
 - **Redirect:** Automatically redirect users to the original URL when accessing the shortened link.
@@ -14,7 +14,7 @@ The LinkMagic API allows provides a robust and scalable solution for generating 
 
 ---
 
-## Prerequisites
+## Prerequisites 💡
 Ensure you have the following installed:
 - Node.js (v16.x or later)
 - npm (v8.x or later)
@@ -22,7 +22,7 @@ Ensure you have the following installed:
 
 ---
 
-## Installation
+## Installation 🔗
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/url-shortener.git
@@ -49,7 +49,7 @@ Ensure you have the following installed:
 
 ---
 
-## API Endpoints
+## API Endpoints 🔗
 
 ### 1. **Shorten URL**
 **Endpoint:** `POST /url`
@@ -178,7 +178,7 @@ src
 
 ---
 
-## Future Enhancements
+## Future Enhancements 🤝
 - Add user authentication for managing URLs.
 - Implement analytics to track link usage.
 - Provide custom short codes for users.
@@ -186,7 +186,7 @@ src
 
 ---
 
-## License
+## License 📜
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ---
