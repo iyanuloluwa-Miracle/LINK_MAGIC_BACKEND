@@ -1,15 +1,198 @@
 # LinkMagic API Documentation
 
 ## Overview
-The LinkMagic API allows users to create short links, retrieve analytics, and manage their links.
+The LinkMagic API allows provides a robust and scalable solution for generating shortened URLs and retrieving original URLs from their shortened counterparts. This service is built with **NestJS** and integrates seamlessly with **MongoDB** for data persistence. It is designed to handle high traffic with reliability and performance.
+
+---
 
 
+## Features
+- **Shorten URL:** Generate a unique, shortened version of a long URL.
+- **Retrieve URL:** Retrieve the original URL using the shortened code.
+- **Redirect:** Automatically redirect users to the original URL when accessing the shortened link.
+- **Scalable Design:** Built for high availability and performance.
 
+---
 
+## Prerequisites
+Ensure you have the following installed:
+- Node.js (v16.x or later)
+- npm (v8.x or later)
+- MongoDB (v4.4 or later)
 
+---
 
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/url-shortener.git
+   cd url-shortener
+   ```
 
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
+3. Configure the environment variables:
+   Create a `.env` file in the root directory with the following content:
+   ```env
+   PORT=3000
+   MONGO_URI=mongodb://localhost:27017/urlshortener
+   BASE_URL=http://localhost:3000
+   ```
+
+4. Start the server:
+   ```bash
+   npm run start:dev
+   ```
+
+---
+
+## API Endpoints
+
+### 1. **Shorten URL**
+**Endpoint:** `POST /url`
+
+#### **Request**
+- **Headers:**
+  - `Content-Type: application/json`
+- **Body:**
+  ```json
+  {
+    "longUrl": "https://example.com/some-very-long-url"
+  }
+  ```
+
+#### **Response**
+- **Success:**
+  ```json
+  {
+    "success": true,
+    "shortUrl": "http://localhost:3000/AWswbCLOi"
+  }
+  ```
+- **Failure:**
+  ```json
+  {
+    "success": false,
+    "message": "Invalid URL format"
+  }
+  ```
+
+#### **Description**
+Generates a unique short code for the provided URL and returns the shortened URL. The `BASE_URL` is prefixed to the generated short code.
+
+---
+
+### 2. **Retrieve Original URL**
+**Endpoint:** `GET /url/:shortCode`
+
+#### **Request**
+- **Path Parameter:**
+  - `shortCode` (string): The unique code for the shortened URL.
+
+#### **Response**
+- **Success:**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "longUrl": "https://example.com/some-very-long-url"
+    }
+  }
+  ```
+- **Failure:**
+  ```json
+  {
+    "success": false,
+    "message": "URL not found"
+  }
+  ```
+
+#### **Description**
+Retrieves the original long URL corresponding to the provided `shortCode`. Returns a 404 error if the `shortCode` does not exist.
+
+---
+
+### 3. **Redirect to Original URL**
+**Endpoint:** `GET /:shortCode`
+
+#### **Request**
+- **Path Parameter:**
+  - `shortCode` (string): The unique code for the shortened URL.
+
+#### **Response**
+- **Redirects to the original URL** if the `shortCode` exists.
+- **Failure:**
+  ```json
+  {
+    "success": false,
+    "message": "URL not found"
+  }
+  ```
+
+#### **Description**
+Redirects the user to the original URL when accessing the shortened URL directly in a browser.
+
+---
+
+## Example Usage in Postman
+
+### **Shorten URL**
+1. Open Postman and create a new `POST` request.
+2. Set the URL to: `http://localhost:3000/url`
+3. Add the following JSON body:
+   ```json
+   {
+     "longUrl": "https://example.com/some-very-long-url"
+   }
+   ```
+4. Send the request. You should receive a response containing the shortened URL.
+
+### **Retrieve Original URL**
+1. Create a new `GET` request in Postman.
+2. Set the URL to: `http://localhost:3000/url/AWswbCLOi` (replace `AWswbCLOi` with your short code).
+3. Send the request. You should receive a response containing the original URL.
+
+### **Redirect**
+1. Open a browser and navigate to: `http://localhost:3000/AWswbCLOi`.
+2. You should be redirected to the original URL.
+
+---
+
+## Directory Structure
+```
+src
+├── app.module.ts
+├── main.ts
+├── config
+│   ├── config.module.ts
+│   ├── config.service.ts
+├── url
+│   ├── url.controller.ts
+│   ├── url.service.ts
+│   ├── url.module.ts
+│   ├── url.schema.ts
+```
+
+---
+
+## Future Enhancements
+- Add user authentication for managing URLs.
+- Implement analytics to track link usage.
+- Provide custom short codes for users.
+- Add rate-limiting for API requests.
+
+---
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+---
+
+## Author
+Designed and maintained by **Dina Iyanuloluwa**
 
 
 
