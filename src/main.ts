@@ -6,10 +6,11 @@ async function bootstrap() {
   dotenv.config();
   const app = await NestFactory.create(AppModule);
 
-  // Enable CORS
+  // Enable CORS with all origins allowed
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || 'https://link-magic.vercel.app/',
+    origin: true,  // Allow all origins
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true
   });
 
   await app.listen(process.env.PORT ?? 3000);
