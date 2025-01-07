@@ -13,9 +13,13 @@ export class UrlController {
     return { success: true, shortUrl: url.shortUrl };
   }
 
-  @Get(':shortCode')
-  async redirect(@Param('shortCode') shortCode: string, @Res() res: Response) {
+@Get(':shortCode')
+async redirect(@Param('shortCode') shortCode: string) {
+  try {
     const longUrl = await this.urlService.redirectUrl(shortCode);
-    return res.redirect(HttpStatus.FOUND, longUrl);
+    return { success: true, longUrl };
+  } catch (error) {
+    return { success: false, message: 'URL not found' };
   }
+}
 }
