@@ -7,10 +7,13 @@ export class Url extends Document {
   longUrl: string;
 
   @Prop({ required: true, unique: true })
+  shortCode: string;
+
+  @Prop({ required: true })
   shortUrl: string;
 
-  @Prop({ default: 0 })
-  clicks: number;
+  @Prop({ default: Date.now })
+  createdAt: Date;
 }
 
 export const UrlSchema = SchemaFactory.createForClass(Url);

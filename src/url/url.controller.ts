@@ -1,7 +1,6 @@
-import { Controller, Post, Body, Get, Param, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, HttpException, HttpStatus } from '@nestjs/common';
 import { UrlService } from './url.service';
 import { CreateUrlDto } from './dto/create-url.dto';
-import { Response } from 'express';
 
 @Controller('url')
 export class UrlController {
@@ -9,17 +8,34 @@ export class UrlController {
 
   @Post('shorten')
   async shortenUrl(@Body() createUrlDto: CreateUrlDto) {
-    const url = await this.urlService.shortenUrl(createUrlDto);
-    return { success: true, shortUrl: url.shortUrl };
+    try {
+      const url = await this.urlService.shortenUrl(createUrlDto);
+      return { 
+        success: true, 
+        shortUrl: url.shortUrl,
+        originalUrl: url.longUrl 
+      };
+    } catch (error) {
+      throw new HttpException({
+        success: false,
+        message: error.message || 'Failed to shorten URL'
+      }, HttpStatus.BAD_REQUEST);
+    }
   }
 
-@Get(':shortCode')
-async redirect(@Param('shortCode') shortCode: string) {
-  try {
-    const longUrl = await this.urlService.redirectUrl(shortCode);
-    return { success: true, longUrl };
-  } catch (error) {
-    return { success: false, message: 'URL not found' };
+  @Get(':shortCode')
+  async redirect(@Param('shortCode') shortCode: string) {
+    try {
+      const url = await this.urlService.redirectUrl(shortCode);
+      return { 
+        success: true, 
+        longUrl: url.longUrl 
+      };
+    } catch (error) {
+      throw new HttpException({
+        success: false,
+        message: 'URL not found'
+      }, HttpStatus.NOT_FOUND);
+    }
   }
-}
 }
