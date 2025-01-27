@@ -12,33 +12,33 @@ export class UrlService {
   async shortenUrl(createUrlDto: CreateUrlDto) {
     try {
       let { longUrl } = createUrlDto;
-
+  
       // Validate URL format
       if (!longUrl) {
         throw new HttpException('URL is required', HttpStatus.BAD_REQUEST);
       }
-
+  
       // Add protocol if missing
       if (!longUrl.startsWith('http://') && !longUrl.startsWith('https://')) {
         longUrl = `https://${longUrl}`;
       }
-
+  
       try {
         new URL(longUrl);
       } catch {
         throw new HttpException('Invalid URL format', HttpStatus.BAD_REQUEST);
       }
-
+  
       // Check if URL already exists
       const existingUrl = await this.urlModel.findOne({ longUrl });
       if (existingUrl) {
         return existingUrl;
       }
-
+  
       // Generate short code
       const shortCode = nanoid(8);
-      const shortUrl = `${process.env.BASE_URL}/url/${shortCode}`;
-
+      const shortUrl = `${process.env.BASE_URL || 'http://localhost:3000'}/url/${shortCode}`;
+  
       // Create new URL document
       const newUrl = await this.urlModel.create({
         longUrl,
@@ -46,7 +46,7 @@ export class UrlService {
         shortUrl,
         createdAt: new Date()
       });
-
+  
       return newUrl;
     } catch (error) {
       throw new HttpException(

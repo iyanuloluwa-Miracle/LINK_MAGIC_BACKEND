@@ -13,7 +13,7 @@ export class UrlController {
       return { 
         success: true, 
         shortUrl: url.shortUrl,
-        originalUrl: url.longUrl 
+        originalUrl: url.longUrl
       };
     } catch (error) {
       throw new HttpException({
@@ -38,4 +38,5 @@ export class UrlController {
       }, HttpStatus.NOT_FOUND);
     }
   }
+  
 }
