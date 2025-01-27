@@ -37,7 +37,7 @@ export class UrlService {
   
       // Generate short code
       const shortCode = nanoid(8);
-      const shortUrl = `${process.env.BASE_URL || 'http://localhost:3000'}/url/${shortCode}`;
+      const shortUrl = `${process.env.BASE_URL || 'https://link-magic-backend.onrender.com'}/url/${shortCode}`;
   
       // Create new URL document
       const newUrl = await this.urlModel.create({
