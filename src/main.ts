@@ -8,13 +8,21 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(AppConfigService);
 
-  // Enable CORS with all origins allowed
+  // Configure CORS
   app.enableCors({
-    origin: true,  // Allow all origins
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true
+    origin: [
+      'http://localhost:5173',     // Vite default development port
+      'http://localhost:3000',     // Alternative local development port
+      'https://link-magic.vercel.app', // Add your frontend production URL
+      /\.vercel\.app$/,           // Allow all subdomains on vercel.app
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204
   });
 
-  await app.listen(configService.port);
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
