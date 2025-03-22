@@ -4,10 +4,14 @@ import { Model } from 'mongoose';
 import { Url } from './schemas/url.schema';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { nanoid } from 'nanoid';
+import { AppConfigService } from '../config/config.service';
 
 @Injectable()
 export class UrlService {
-  constructor(@InjectModel(Url.name) private urlModel: Model<Url>) {}
+  constructor(
+    @InjectModel(Url.name) private urlModel: Model<Url>,
+    private readonly configService: AppConfigService
+  ) {}
 
   async shortenUrl(createUrlDto: CreateUrlDto) {
     try {
@@ -37,7 +41,7 @@ export class UrlService {
   
       // Generate short code
       const shortCode = nanoid(8);
-      const shortUrl = `${process.env.BASE_URL || 'https://link-magic.vercel.app'}/url/${shortCode}`;
+      const shortUrl = `${this.configService.baseUrl}/url/${shortCode}`;
   
       // Create new URL document
       const newUrl = await this.urlModel.create({
