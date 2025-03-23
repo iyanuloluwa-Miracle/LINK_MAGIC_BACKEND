@@ -13,7 +13,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:5173',     // Vite default development port
       'http://localhost:3000',     // Alternative local development port
-      'https://link-magic.vercel.app', // Add your frontend production URL
+      'https://link-magic-3oq9.vercel.app/', // Add your frontend production URL
       /\.vercel\.app$/,           // Allow all subdomains on vercel.app
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
